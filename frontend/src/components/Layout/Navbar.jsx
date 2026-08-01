@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../main";
 import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
+import { axiosInstance } from "../../utils/axios";
 import toast from "react-hot-toast";
 import { GiHamburgerMenu } from "react-icons/gi";
 
@@ -12,12 +12,7 @@ const Navbar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:5001/api/v1/user/logout",
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axiosInstance.get("/api/v1/user/logout");
       toast.success(response.data.message);
       setIsAuthorized(false);
       navigateTo("/login");
