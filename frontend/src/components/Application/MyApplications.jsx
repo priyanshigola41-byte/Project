@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Context } from "../../main";
-import axios from "axios";
+import { axiosInstance } from "../../utils/axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import ResumeModal from "./ResumeModal";
@@ -17,18 +17,14 @@ const MyApplications = () => {
   useEffect(() => {
     try {
       if (user && user.role === "Employer") {
-        axios
-          .get("http://localhost:5001/api/v1/application/employer/getall", {
-            withCredentials: true,
-          })
+        axiosInstance
+          .get("/api/v1/application/employer/getall")
           .then((res) => {
             setApplications(res.data.applications);
           });
       } else {
-        axios
-          .get("http://localhost:5001/api/v1/application/jobseeker/getall", {
-            withCredentials: true,
-          })
+        axiosInstance
+          .get("/api/v1/application/jobseeker/getall")
           .then((res) => {
             setApplications(res.data.applications);
           });
@@ -44,10 +40,8 @@ const MyApplications = () => {
 
   const deleteApplication = (id) => {
     try {
-      axios
-        .delete(`http://localhost:5001/api/v1/application/delete/${id}`, {
-          withCredentials: true,
-        })
+      axiosInstance
+        .delete(`/api/v1/application/delete/${id}`)
         .then((res) => {
           toast.success(res.data.message);
           setApplications((prevApplication) =>

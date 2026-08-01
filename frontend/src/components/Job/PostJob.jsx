@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import axios from "axios";
+import { axiosInstance } from "../../utils/axios";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../main";
@@ -29,9 +29,9 @@ const PostJob = () => {
       setSalaryTo("");
       setFixedSalary("");
     }
-    await axios
+    await axiosInstance
       .post(
-        "http://localhost:5001/api/v1/job/post",
+        "/api/v1/job/post",
         fixedSalary.length >= 4
           ? {
               title,
@@ -53,7 +53,6 @@ const PostJob = () => {
               salaryTo,
             },
         {
-          withCredentials: true,
           headers: {
             "Content-Type": "application/json",
           },

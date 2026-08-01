@@ -9,10 +9,8 @@ const Jobs = () => {
   const navigateTo = useNavigate();
   useEffect(() => {
     try {
-      axios
-        .get("http://localhost:5001/api/v1/job/getall", {
-          withCredentials: true,
-        })
+      axiosInstance
+        .get("/api/v1/job/getall")
         .then((res) => {
           setJobs(res.data);
         });

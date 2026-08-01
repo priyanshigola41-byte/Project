@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import axios from "axios";
+import { axiosInstance } from "../../utils/axios";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../main";
 const JobDetails = () => {
@@ -11,10 +11,8 @@ const JobDetails = () => {
   const { isAuthorized, user } = useContext(Context);
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:5001/api/v1/job/${id}`, {
-        withCredentials: true,
-      })
+    axiosInstance
+      .get(`/api/v1/job/${id}`)
       .then((res) => {
         setJob(res.data.job);
       })

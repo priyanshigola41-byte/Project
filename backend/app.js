@@ -10,7 +10,16 @@ import cookieParser from "cookie-parser";
 import fileUpload from "express-fileupload";
 
 const app = express();
-config({ path: "./config.env" });
+import path from "path";
+import { fileURLToPath } from "url";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+config({ path: path.join(__dirname, "config.env") });
+
+console.log("Reading config from:", path.join(__dirname, "config.env"));
+console.log("Loaded MONGO_URI:", process.env.MONGO_URI);
 console.log("Config loaded");
 console.log("PORT =", process.env.PORT);
 console.log("MONGO_URI =", process.env.MONGO_URI);

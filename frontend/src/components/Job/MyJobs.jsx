@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "../../utils/axios";
 import React, { useContext, useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { FaCheck } from "react-icons/fa6";
@@ -16,9 +16,8 @@ const MyJobs = () => {
   useEffect(() => {
     const fetchJobs = async () => {
       try {
-        const { data } = await axios.get(
-          "http://localhost:5001/api/v1/job/getmyjobs",
-          { withCredentials: true }
+        const { data } = await axiosInstance.get(
+          "/api/v1/job/getmyjobs"
         );
         setMyJobs(data.myJobs);
       } catch (error) {
@@ -46,10 +45,8 @@ const MyJobs = () => {
   //Function For Updating The Job
   const handleUpdateJob = async (jobId) => {
     const updatedJob = myJobs.find((job) => job._id === jobId);
-    await axios
-      .put(`http://localhost:5001/api/v1/job/update/${jobId}`, updatedJob, {
-        withCredentials: true,
-      })
+    await axiosInstance
+      .put(`/api/v1/job/update/${jobId}`, updatedJob)
       .then((res) => {
         toast.success(res.data.message);
         setEditingMode(null);
@@ -61,10 +58,8 @@ const MyJobs = () => {
 
   //Function For Deleting Job
   const handleDeleteJob = async (jobId) => {
-    await axios
-      .delete(`http://localhost:5001/api/v1/job/delete/${jobId}`, {
-        withCredentials: true,
-      })
+    await axiosInstance
+      .delete(`/api/v1/job/delete/${jobId}`)
       .then((res) => {
         toast.success(res.data.message);
         setMyJobs((prevJobs) => prevJobs.filter((job) => job._id !== jobId));
