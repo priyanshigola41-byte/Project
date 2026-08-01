@@ -44,6 +44,12 @@ app.use(
 app.use("/api/v1/user", userRouter);
 app.use("/api/v1/job", jobRouter);
 app.use("/api/v1/application", applicationRouter);
+app.get("/", (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: "Job Portal Backend is Running Successfully 🚀"
+  });
+});
 dbConnection();
 
 app.use(errorMiddleware);
