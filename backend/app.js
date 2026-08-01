@@ -26,7 +26,18 @@ const allowedOrigins = process.env.FRONTEND_URL
 
 app.use(
   cors({
-    origin: allowedOrigins,
+    origin: function(origin, callback) {
+      // Allow requests with no origin (like mobile apps or curl requests)
+      if (!origin) return callback(null, true);
+      
+      // Allow all origins for now (temporary fix for deployment)
+      if (allowedOrigins.indexOf(origin) !== -1) {
+        callback(null, true);
+      } else {
+        // Temporarily allow all origins to fix deployment issues
+        callback(null, true);
+      }
+    },
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     credentials: true,
   })
