@@ -16,16 +16,17 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-config({ path: path.join(__dirname, "config.env") });
+// Load environment variables from system (works for both local .env and Render dashboard)
+config();
 
-console.log("Reading config from:", path.join(__dirname, "config.env"));
-console.log("Loaded MONGO_URI:", process.env.MONGO_URI);
-console.log("Config loaded");
-console.log("PORT =", process.env.PORT);
-console.log("MONGO_URI =", process.env.MONGO_URI);
+// Get allowed origins from environment variable or use defaults
+const allowedOrigins = process.env.FRONTEND_URL 
+  ? [process.env.FRONTEND_URL, "http://localhost:5173", "http://localhost:5174", "http://localhost:3000"]
+  : ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"];
+
 app.use(
   cors({
-    origin: ["http://localhost:5173", "http://localhost:5174", "http://localhost:3000"],
+    origin: allowedOrigins,
     methods: ["GET", "POST", "DELETE", "PUT", "PATCH"],
     credentials: true,
   })
